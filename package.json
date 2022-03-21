@@ -1,0 +1,31 @@
+{
+  "name": "back-end-kolibri.io",
+  "version": "1.0.0",
+  "description": "Simple Node Create Products With Sequelize and MySQL",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oktrifianto/kolibri.io---back-end.git"
+  },
+  "keywords": [
+    "node",
+    "sequelize",
+    "mysql"
+  ],
+  "author": "Rahmat Oktrifianto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oktrifianto/kolibri.io---back-end/issues"
+  },
+  "homepage": "https://github.com/oktrifianto/kolibri.io---back-end#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
