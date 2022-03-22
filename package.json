@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/oktrifianto/kolibri.io---back-end#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
