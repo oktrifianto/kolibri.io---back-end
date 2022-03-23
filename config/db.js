@@ -6,6 +6,7 @@ const db = new Sequelize(
   process.env.MYSQL_DBUSER,
   process.env.MYSQL_DBPASSWORD,
   {
+    logging: false, // disable console when access DB
     host: process.env.MYSQL_DBHOST,
     dialect: 'mysql'
   }
