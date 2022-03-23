@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize')  // v6 - stable
 require('dotenv').config()
 
-const sequelize = new Sequelize(
+const db = new Sequelize(
   process.env.MYSQL_DBNAME,
   process.env.MYSQL_DBUSER,
   process.env.MYSQL_DBPASSWORD,
@@ -11,4 +11,4 @@ const sequelize = new Sequelize(
   }
 )
 
-module.exports = sequelize
+module.exports = db // export db connection
