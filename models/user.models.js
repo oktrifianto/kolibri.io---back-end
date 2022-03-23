@@ -1,7 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize') 
 const db  = require('../config/db')
 
-const User = db.define('user', {
+/**
+ * How to define model?
+ * sequelize.define('name', {attributes}, {options})
+ * db.define('name', {attributes}, {options})
+ */
+const User = db.define('Users', { // `Users` is [model name]
   username: {
     type: DataTypes.STRING,
     allowNull: false
@@ -19,7 +24,8 @@ const User = db.define('user', {
     allowNull: false
   }
 }, {
-  freezeTableName: true
+  // freezeTableName: true, // Model tableName will be the same as the model name 
+  tableName: 'user' // tell table name directly in db
 })
 
 module.exports = User
