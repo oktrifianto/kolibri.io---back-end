@@ -25,10 +25,17 @@ const getUserByUsername = async (req, res) => {
       } // WHERE username="" ...
     })
 
-    res.status(200).json({
-      "status"  : res.statusCode,
-      "message" : userData
-    })
+    if (userData == null){
+      res.status(404).json({
+        "status"  : res.statusCode,
+        "message" : "Username not found"
+      })
+    } else {
+      res.status(200).json({
+        "status"  : res.statusCode,
+        "message" : userData
+      })
+    }
   } catch (err) {
     console.log(err)
   }
