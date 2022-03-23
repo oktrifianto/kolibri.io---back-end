@@ -1,17 +1,26 @@
 const User = require('../models/user.models')
 
+/**
+ * Controller for get all users
+ * @path  /user/all
+ */
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll()
     res.json({
       "status"  : res.statusCode,
       "message" : users
     })
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
 }
 
+/**
+ * Controller for get user by username
+ * @path  /user/:username
+ * @see   https://sequelize.org/master/manual/model-querying-finders.html#-code-findone--code-
+ */
 const getUserByUsername = async (req, res) => {
   try {
     const { username } = req.params
@@ -40,6 +49,7 @@ const getUserByUsername = async (req, res) => {
     console.log(err)
   }
 }
+
 module.exports = {
   getAllUsers,
   getUserByUsername
