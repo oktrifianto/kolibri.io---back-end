@@ -1,16 +1,14 @@
 const express = require('express')
 const router  = express.Router()
 
-/**
- * @description   Get all users
- * @method        GET 
- * @path          /user/all
- */
-router.get('/all', (req, res) => {
-  res.json({
-    "status"  : res.statusCode,
-    "message" : "Success get all users"
-  })
-})
+// import controllers
+const lib     = require('../controllers/user.controllers')
 
-module.exports = router;
+/**
+ * Get all users
+ * @method   GET 
+ * @path     /user/all
+ */
+router.get('/all', lib.getAllUsers)
+
+module.exports = router
