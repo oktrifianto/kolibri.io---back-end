@@ -11,4 +11,11 @@ const lib     = require('../controllers/user.controllers')
  */
 router.get('/all', lib.getAllUsers)
 
+/**
+ * Get one user by username
+ * @method   GET
+ * @path     /user/:username
+ */
+router.get('/:username', lib.getUserByUsername)
+
 module.exports = router
