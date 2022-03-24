@@ -1,6 +1,7 @@
 const express   = require('express')
 const app       = express()
 const port      = 3000
+app.use(express.json()); // To enable req.body
 
 // import routes
 const UserRoutes    = require('./routes/user.routes')
