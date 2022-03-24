@@ -17,4 +17,11 @@ router.post('/', lib.createOneProduct)
  */
 router.get('/:id', lib.getSingleProduct)
 
+/**
+ * Delete single product
+ * @method    DELETE
+ * @path      /product/:id
+ */
+router.delete('/:id', lib.removeSingleProduct)
+
 module.exports = router
