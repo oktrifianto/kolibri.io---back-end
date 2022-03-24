@@ -10,4 +10,11 @@ const lib     = require('../controllers/product.controllers')
  */
 router.post('/', lib.createOneProduct)
 
+/**
+ * Get single product
+ * @method    GET
+ * @path      /product/:id
+ */
+router.get('/:id', lib.getSingleProduct)
+
 module.exports = router
