@@ -2,8 +2,11 @@ const express   = require('express')
 const app       = express()
 const port      = 3000
 
-const UserRoutes  = require('./routes/user.routes')
+// import routes
+const UserRoutes    = require('./routes/user.routes')
+const ProductRoutes = require('./routes/product.routes')
 app.use('/user', UserRoutes)
+app.use('/product', ProductRoutes)
 
 app.get('/', (req, res) => {
   res.json({
