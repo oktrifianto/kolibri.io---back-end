@@ -55,7 +55,43 @@ const getSingleProduct = async (req, res) => {
   }
 }
 
+/**
+ * Controller for delete single product
+ * @path  /product/:id
+ */
+const removeSingleProduct = async (req, res) => {
+  try {
+    const { id } = req.params
+    await Product.destroy({
+      where: {
+        id : id
+      }
+    }).then((removeRecord) => {
+      if (removeRecord == 1) {
+        res.status(202).json({ // if 204 not return any content
+          status  : res.statusCode,
+          message : "Product successfully deleted."
+        })
+      } else {
+        res.status(404).json({
+          status  : res.statusCode,
+          message : "Product not found."
+        })
+      }
+    }).catch((err) => {
+      res.status(500).json(err)
+    }).finally(() => {
+      // nothing here
+      // for disable error [ERR_HTTP_HEADERS_SENT]
+    })
+
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   createOneProduct,
-  getSingleProduct
+  getSingleProduct,
+  removeSingleProduct
 }
