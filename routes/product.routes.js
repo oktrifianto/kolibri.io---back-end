@@ -24,4 +24,11 @@ router.get('/:id', lib.getSingleProduct)
  */
 router.delete('/:id', lib.removeSingleProduct)
 
+/**
+ * Update single product (all parameters)
+ * @method    PUT
+ * @path      /product/:id
+ */
+router.put('/:id', lib.updateSingleProduct)
+
 module.exports = router
