@@ -26,6 +26,30 @@ const createOneProduct = async (req, res) => {
 }
 
 /**
+ * Controller for get all products
+ * @path  /product/all
+ */
+ const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.findAll()
+
+    if (products.length > 0)
+      res.status(200).json({
+        status  : res.statusCode,
+        data    : products
+      })
+    else
+      res.status(404).json({
+        status  : res.statusCode,
+        message : "No product here."
+      })
+
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+/**
  * Controller for get single product
  * @path  /product/:id
  */
@@ -109,7 +133,7 @@ const updateSingleProduct = async (req, res) => {
       })
       
     } else {
-      
+
       await Product.update({ name: name, price: price}, {
         where: {
           id : id
@@ -134,5 +158,6 @@ module.exports = {
   createOneProduct,
   getSingleProduct,
   removeSingleProduct,
-  updateSingleProduct
+  updateSingleProduct,
+  getAllProducts
 }
