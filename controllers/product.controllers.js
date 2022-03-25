@@ -90,8 +90,49 @@ const removeSingleProduct = async (req, res) => {
   }
 }
 
+/**
+ * Controller for update single product
+ * @path  /product/:id
+ * @see   https://www.thoughtco.com/javascript-by-example-use-of-the-ternary-operator-2037394
+ */
+const updateSingleProduct = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { name, price } = req.body
+
+    if (!(name && price)) {
+
+      const v = (!name) ? "Product name" : "Product price"
+      res.status(409).json({
+        status: res.statusCode,
+        message: `${v} must not empty!`
+      })
+      
+    } else {
+      
+      await Product.update({ name: name, price: price}, {
+        where: {
+          id : id
+        }
+      })
+      
+      const result = await Product.findByPk(id)
+
+      res.status(202).json({
+        status  : res.statusCode,
+        message : "Product sucessfully updated.",
+        data    : result
+      })
+
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   createOneProduct,
   getSingleProduct,
-  removeSingleProduct
+  removeSingleProduct,
+  updateSingleProduct
 }
