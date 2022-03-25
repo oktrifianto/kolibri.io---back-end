@@ -11,6 +11,13 @@ const lib     = require('../controllers/product.controllers')
 router.post('/', lib.createOneProduct)
 
 /**
+ * Get all products
+ * @method    GET
+ * @path      /product/all
+ */
+ router.get('/all', lib.getAllProducts)
+
+/**
  * Get single product
  * @method    GET
  * @path      /product/:id
