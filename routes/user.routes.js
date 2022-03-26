@@ -18,4 +18,12 @@ router.get('/all', lib.getAllUsers)
  */
 router.get('/:username', lib.getUserByUsername)
 
+/**
+ * SignUp new user
+ * @method    POST 
+ * @path      /user/signup
+ * @requires  {json body} -> email, password
+ */
+router.post('/signup', lib.signupNewUser)
+
 module.exports = router
