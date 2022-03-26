@@ -1,4 +1,5 @@
-const User = require('../models/user.models')
+const User   = require('../models/user.models')
+const { Op } = require('sequelize')
 
 /**
  * Controller for get all users
@@ -50,7 +51,55 @@ const getUserByUsername = async (req, res) => {
   }
 }
 
+/**
+ * Controller for signup new user
+ * @path  /user/signup
+ * @see   [findOrCreate]  --- https://sequelize.org/master/manual/model-querying-finders.html#-code-findorcreate--code-
+ * @see   [Op]            --- https://sequelize.org/master/manual/model-querying-basics.html#operators
+ */
+const signupNewUser = async (req, res) => {
+  try {
+    const { email, username, password } = req.body
+
+    if (!(email && username && password)){
+      res.status(400).json({
+        "message" : "Input must required."
+      })
+    }
+
+    const token = "ewg4gregjuadbnjabndjabd"
+    
+    await User.findOrCreate({
+      where: {
+        [Op.or] : [
+          { email : email }, 
+          { username : username }
+        ]
+      },
+      defaults: {
+        email     : email,
+        username  : username,
+        password  : password,
+        token     : token
+      }
+    }).then(([user, created]) => {
+      if (created) {
+        // create new data
+        console.log('register success.')
+        console.log(user)
+      } else {
+        // existed
+        console.log('user is exist.')
+      }
+    })
+    
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllUsers,
-  getUserByUsername
+  getUserByUsername,
+  signupNewUser
 }
