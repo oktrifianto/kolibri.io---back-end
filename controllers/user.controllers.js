@@ -1,5 +1,7 @@
 const User   = require('../models/user.models')
 const { Op } = require('sequelize')
+const bcrypt = require('bcryptjs')
+const jwt    = require('jsonwebtoken')
 
 /**
  * Controller for get all users
@@ -63,11 +65,13 @@ const signupNewUser = async (req, res) => {
 
     if (!(email && username && password)){
       res.status(400).json({
-        "message" : "Input must required."
+        status  : res.statusCode,
+        message : "Input must required."
       })
     }
 
-    const token = "ewg4gregjuadbnjabndjabd"
+    const token         = jwt.sign({email : email}, process.env.TOKEN_KEY, {expiresIn: '2h'})
+    const passwordHash  = await bcrypt.hash(password, 10);
     
     await User.findOrCreate({
       where: {
@@ -79,17 +83,25 @@ const signupNewUser = async (req, res) => {
       defaults: {
         email     : email,
         username  : username,
-        password  : password,
+        password  : passwordHash,
         token     : token
       }
     }).then(([user, created]) => {
       if (created) {
-        // create new data
-        console.log('register success.')
-        console.log(user)
+        res.status(201).json({
+          status  : res.statusCode,
+          message : "Register success.",
+          data    : {
+            email   : user.email,
+            username: user.username,
+            token   : user.token
+          }
+        })
       } else {
-        // existed
-        console.log('user is exist.')
+        res.status(409).json({
+          status  : res.statusCode,
+          message : "Sorry, user is existed." 
+        })
       }
     })
     
