@@ -1,14 +1,16 @@
 const express = require('express')
 const router  = express.Router()
 const lib     = require('../controllers/product.controllers')
+const auth    = require('../middleware/auth')
 
 /**
  * Create one single product
  * @method    POST
  * @path      /product
  * @requires  {json} -> body: name, price
+ * @protected
  */
-router.post('/', lib.createOneProduct)
+router.post('/', auth, lib.createOneProduct)
 
 /**
  * Get all products
@@ -28,14 +30,16 @@ router.get('/:id', lib.getSingleProduct)
  * Delete single product
  * @method    DELETE
  * @path      /product/:id
+ * @protected
  */
-router.delete('/:id', lib.removeSingleProduct)
+router.delete('/:id', auth, lib.removeSingleProduct)
 
 /**
  * Update single product (all parameters)
  * @method    PUT
  * @path      /product/:id
+ * @protected
  */
-router.put('/:id', lib.updateSingleProduct)
+router.put('/:id', auth, lib.updateSingleProduct)
 
 module.exports = router
