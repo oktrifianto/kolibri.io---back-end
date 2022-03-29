@@ -110,8 +110,66 @@ const signupNewUser = async (req, res) => {
   }
 }
 
+/**
+ * Controller for login user
+ * @path      /user/login
+ */
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    if (!(email && password)) {
+      res.status(400).json({
+        status  : res.statusCode,
+        message : 'All input should be required.'
+      })
+    }
+
+    const user = await User.findOne({
+      where: {
+        email: email
+      }
+    })
+
+    // check email exist & compare password
+    if (user != null) {
+      if (!(await bcrypt.compare(password, user.password))){
+        res.status(401).json({
+          status  : res.statusCode,
+          message : 'Unauthorized, your password is wrong.' 
+        })
+      } else { // password is true
+        const token = jwt.sign({email}, process.env.TOKEN_KEY, {expiresIn: "2h"})
+      
+        // update token value
+        user.token = token
+        await user.save()
+
+        res.status(200).json({
+          status  : res.statusCode,
+          message : 'Login Success.',
+          data    : {
+            username : user.username,
+            token    : user.token
+          }
+        })
+
+      }
+    } else {
+      res.status(404).json({
+        status  : res.statusCode,
+        message : 'User is not exist.'
+      })
+    }
+
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUserByUsername,
-  signupNewUser
+  signupNewUser,
+  loginUser
 }
