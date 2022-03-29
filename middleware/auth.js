@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
+/**
+ * req.body.token                 ----- { "token" : "<token.xxxxx.yyyyy.zzzzz>"}
+ * req.query.token                ----- domain.com/data?token=xxxxx.yyyyy.zzzzz
+ * req.headers['x-access-token']  ----- Authorization: x-access-token <token.xxxxx.yyyyy.zzzzz>
+ */
 module.exports = (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
 
