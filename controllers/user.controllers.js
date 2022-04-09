@@ -2,6 +2,7 @@ const User   = require('../models/user.models')
 const { Op } = require('sequelize')
 const bcrypt = require('bcryptjs')
 const jwt    = require('jsonwebtoken')
+const isEmailValid = require('../services/EmailValidator')
 
 /**
  * Controller for get all users
@@ -70,43 +71,53 @@ const signupNewUser = async (req, res) => {
       })
     }
 
-    const token         = jwt.sign({email : email}, process.env.TOKEN_KEY, {expiresIn: '2h'})
-    const passwordHash  = await bcrypt.hash(password, 10);
-    
-    await User.findOrCreate({
-      where: {
-        [Op.or] : [
-          { email : email }, 
-          { username : username }
-        ]
-      },
-      defaults: {
-        email     : email,
-        username  : username,
-        password  : passwordHash,
-        token     : token
-      }
-    }).then(([user, created]) => {
-      if (created) {
-        res.status(201).json({
-          status  : res.statusCode,
-          message : "Register success.",
-          data    : {
-            email   : user.email,
-            username: user.username,
-            token   : user.token
-          }
-        })
-      } else {
-        res.status(409).json({
-          status  : res.statusCode,
-          message : "Sorry, user is existed." 
-        })
-      }
-    })
+    // Check email is valid
+    if (!(isEmailValid(email))){
+      res.status(401).json({
+        status  : res.statusCode,
+        message : "Your email not valid."
+      })
+
+    } else {
+
+      const token         = jwt.sign({email : email}, process.env.TOKEN_KEY, {expiresIn: '2h'})
+      const passwordHash  = await bcrypt.hash(password, 10)
+      
+      await User.findOrCreate({
+        where: {
+          [Op.or] : [
+            { email : email }, 
+            { username : username }
+          ]
+        },
+        defaults: {
+          email     : email,
+          username  : username,
+          password  : passwordHash,
+          token     : token
+        }
+      }).then(([user, created]) => {
+        if (created) {
+          res.status(201).json({
+            status  : res.statusCode,
+            message : "Register success.",
+            data    : {
+              email   : user.email,
+              username: user.username,
+              token   : user.token
+            }
+          })
+        } else {
+          res.status(409).json({
+            status  : res.statusCode,
+            message : "Sorry, user is existed." 
+          })
+        }
+      })
+    }
     
   } catch (err) {
-    console.log(err)
+    // console.log(err)
   }
 }
 
