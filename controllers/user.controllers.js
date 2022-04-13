@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 const bcrypt = require('bcryptjs')
 const jwt    = require('jsonwebtoken')
 const isEmailValid = require('../services/EmailValidator')
+const isUserValid  = require('../services/UsernameValidator')
 
 /**
  * Controller for get all users
@@ -77,7 +78,12 @@ const signupNewUser = async (req, res) => {
         status  : res.statusCode,
         message : "Your email not valid."
       })
-
+    // Check username is valid
+    } else if (!isUserValid(username)){
+      res.status(401).json({
+        status  : res.statusCode,
+        message : "Your username is not valid. Must use 8-20 characters long."
+      })
     } else {
 
       const token         = jwt.sign({email : email}, process.env.TOKEN_KEY, {expiresIn: '2h'})
